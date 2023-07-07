@@ -3,7 +3,7 @@
 var minimist = require('minimist') //O minimist serve para transformar o array de argumentos em um vetor associativo. Espera argumentos no formato --<nome da associação> = <conteúdo da associação>
 var arg = minimist(process.argv.slice(2)) //O Slice irá recortar o array, pegando o argumento 2 nesse caso. 
 
-console.log(arg['nome'])
+console.log(arg['name'])
 
 /*process.argv.forEach((element) => {
     console.log(element)
