@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^9.2.7",
+    "inquirer": "^8.2.5",
     "minimist": "^1.2.8"
   },
   "description": ""
