@@ -14,7 +14,49 @@ const server = http.createServer((req,res)=>{
         })
     }
     else if(link.pathname == '/login.html'){
-        
+        console.log('Entrou no login'+link.pathname)
+        if(link.query.name && link.query.pass){
+            console.log('Tem um name e pass'+link.pathname)
+            fs.readFile('Users.json', 'utf-8', (err, data)=>{
+                console.log('carregou users.json'+link.pathname)
+                const json = JSON.parse(data)
+                const jsonFiltrado = json.users
+                var usuarioEncontrado = jsonFiltrado.find((jsonFiltrado)=>{
+                    return jsonFiltrado.name==link.query.name
+                })
+                console.log(jsonFiltrado,usuarioEncontrado)
+                if (usuarioEncontrado) {
+                    console.log('9'+link.pathname)
+                    if(usuarioEncontrado.pass==link.query.pass){
+                        res.writeHead(200, {'Contenty-Type':'text/html'})
+                        res.write('Acesso Permitido! <a href="login.html">Sair</a>')
+                        res.end()
+                    }
+                    else{
+                        console.log('10'+link.pathname)
+                        res.writeHead(401, {'Contenty-Type':'text/html'})
+                        fs.readFile('unauthorized.html', 'utf-8', (err,data)=>{
+                            res.end(data)
+                        })
+                    }
+                } else {
+                    console.log('11'+link.pathname)
+                    res.writeHead(404, {'Contenty-Type':'text/html'})
+                    fs.readFile('not_found.html', 'utf-8', (err,data)=>{
+                        res.end(data)
+                    }) 
+                }
+            
+            
+            })
+        } else {
+            console.log('6'+link.pathname)
+            fs.readFile('login.html', 'utf-8', (err,data)=>{
+                res.writeHead(200, {'Contenty-Type': 'text/html'})
+                res.write(data)
+                res.end()
+            })
+        }
     }
     else if(link.pathname == '/cadastro.html'){
         console.log('3 '+link.pathname)
@@ -47,6 +89,9 @@ const server = http.createServer((req,res)=>{
         }
     }
     else {
-        //404
+        res.writeHead(404, {'Contenty-Type':'text/html'})
+                    fs.readFile('not_found.html', 'utf-8', (err,data)=>{
+                        res.end(data)
+                    }) 
     }
 }).listen(5000)
