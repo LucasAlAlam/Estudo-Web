@@ -46,8 +46,6 @@ const server = http.createServer((req,res)=>{
                         res.end(data)
                     }) 
                 }
-            
-            
             })
         } else {
             console.log('6'+link.pathname)
