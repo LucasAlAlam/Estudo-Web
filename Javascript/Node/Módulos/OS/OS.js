@@ -1,6 +1,6 @@
 const os = require ('os')
 console.log('Módulo para manipulação de informações do sistema operacional')
-console.log(os.freemem())
+console.log(os.freemem()/2**30+' GB')
 console.log(os.networkInterfaces())
 console.log(os.hostname())
 console.log(os.arch())
