@@ -1,0 +1,14 @@
+{
+  "name": "consumindo_api",
+  "version": "1.0.0",
+  "description": "Consumo de API externa do banco do brasil usando URL e HTTPS",
+  "main": "Consumindo_api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "https": "^1.0.0"
+  }
+}
