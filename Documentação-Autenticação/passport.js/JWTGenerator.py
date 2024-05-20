@@ -24,7 +24,7 @@ def sign (message:bytes, privateKey):
     #apenas passa o padded para int a fim de realizar os cálculos
     payload = int.from_bytes(padded, 'big', signed=False)
 
-    #criptografa o payload. Aqui não é usada a criptografia padrão, mas sim a criptografia associada com uma técnica denominada blinding. Essa técnica serve para esconder de modo mais persistente a chave privada usada na assinatura da chave. Mais detalhes podem ser vistos em https://en.wikipedia.org/wiki/Blinding_(cryptography)
+    #criptografa o payload. Aqui não é usada a criptografia padrão, mas sim a criptografia associada com uma técnica denominada blinding. Essa técnica serve para esconder de modo mais persistente a chave privada usada na assinatura do token. Mais detalhes podem ser vistos em https://en.wikipedia.org/wiki/Blinding_(cryptography)
     encrypted = private_key.blinded_encrypt(payload)
     signature_bytes = rsa.transform.int2bytes(encrypted, keylength)
     return signature_bytes
