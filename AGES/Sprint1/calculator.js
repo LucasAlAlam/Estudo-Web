@@ -1,31 +1,39 @@
-function sum(a, b) {
-    return a + b;
+function sum(b, a) {
+    return Number(a + b);
 }
 
-function substract(a, b) {
-    return a - b;
+function multiply(b, a) {
+    return Number(a * b);
 }
 
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
-function percentage(a, max) {
-    return max * (a / 100);
+function divide(b, a) {
+    return Number(a / b);
 }
 
 function signal(a) {
-    return -a;
+    return Number(-a);
+}
+
+function percentage(a, max, op) {
+    const numberToOperate = max * (a / 100);
+    switch (op) {
+        case '+':
+            return sum(max, numberToOperate);
+        case '-':
+            return sum(max, signal(numberToOperate));
+        case '*':
+            return multiply(max, numberToOperate);
+        case '/':
+            return divide(max, numberToOperate);
+        default:
+            throw new Error('Unknown operator');
+    }
 }
 
 
 
 function infixToPosfixNotation(expression) {
-    const precedences = { '+': 1, '-': 1, '%': 0, '*': 2, '/': 2 };
+    const precedences = { '+': 1, '-': 1, '*': 2, '/': 2 };
     let operators = [];
     let postfix = [];
     let numberBuffer = [];
@@ -33,8 +41,8 @@ function infixToPosfixNotation(expression) {
     for (let i = 0; i < expression.length; i++) {
         let char = expression[i];
         console.log(char);
-        if (char.match(/\d/)) {
-            numberBuffer.push(char);
+        if (char.match(/\d/) || char == '%') {
+            numberBuffer.push(char); //colocar o % para dentro do caracter
         } else {
             if (numberBuffer.length) {
                 postfix.push(numberBuffer.join(''));
@@ -70,15 +78,20 @@ function evaluatePosfixNotation(expression) {
         let char = expression[i];
 
         if (char.match(/\d/)) {
-            stack.push(Number(char));
-        } else {
+            stack.push(char);
+            console.log(stack);
+        } else if (char.includes('%')) {
+            //fazer o calculo com porcentagem
+            
+        } 
+        else {
 
             switch (char) {
                 case '+':
                     stack.push(sum(stack.pop(), stack.pop()));
                     break;
                 case '-':
-                    stack.push(substract(stack.pop(), stack.pop()));
+                    stack.push(sum(signal(stack.pop()), stack.pop()));
                     break;
                 case '*':
                     stack.push(multiply(stack.pop(), stack.pop()));
@@ -102,32 +115,29 @@ function evaluatePosfixNotation(expression) {
 }
 
 function calculate(expression) {
-    let expressions = [];
     if (!expression) {
         throw new Error('Empty expression');
     }
-    if (expression.has('%')) {
-        expressions = expression.split('%');
-        for (let i = 0; i < expressions.length; i++) {
-            let percentage = () => {
-                let numberBuffer = [];
-                let i = expressions
-                while (expressions) {
-                    let char = expressions[i];
-                    if (char.match(/\d/)) {
-                        numberBuffer.push(char);
-                    } else {
-                        if (numberBuffer.length) {
-                            postfix.push(numberBuffer.join(''));
-                            numberBuffer = [];
-                        }
-                    }
-                }
-        }
-        }
-        let posfix = infixToPosfixNotation(expression);
-        return evaluatePosfixNotation(posfix);
-    }
 
-    let expression = '9+6*8+4';
-    console.log(calculate(expression));  // Output should be 61
+    let posfix = infixToPosfixNotation(expression);
+    return evaluatePosfixNotation(posfix);
+    /*
+        if(!expression.includes('%')){
+            
+        }
+        else {
+            expression.split('%');
+            for(let i = 0; i<expression.length; i++){
+                let numberBuffer = [];
+                do {
+                    numberBuffer.push(expression[i].pop());
+                } while (expression[i][expression[i].length-1].match(/\d/));
+    
+                let operator = expression[i].pop();
+                let max = 
+            }
+        }*/
+}
+
+let expression = '9-3*2/2-3%*3';
+console.log(calculate(expression));  // Output should be 61
